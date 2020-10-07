@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+
+using Microsoft.EntityFrameworkCore;
+using WebVendas.Models;
+
 
 namespace WebVendas
 {
@@ -24,6 +29,9 @@ namespace WebVendas
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<WebVendasContext>(
+                Options => Options.UseMySql(Configuration.GetConnectionString("WebVendasContext"),
+                            builder => builder.MigrationsAssembly("webvendas")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
